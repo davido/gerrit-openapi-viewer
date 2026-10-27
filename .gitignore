@@ -1,0 +1,11 @@
+/bazel-*
+/.apt_generated
+/.classpath
+/.project
+/.settings
+/eclipse-out
+/.idea
+*.iml
+*.swp
+.DS_Store
+__pycache__/
