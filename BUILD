@@ -29,7 +29,7 @@ config_setting(
 )
 
 _WEBJAR = "@swagger_ui_dist_webjar//file"
-_WEBJAR_PREFIX = "META-INF/resources/webjars/swagger-ui-dist/5.34.0"
+_WEBJAR_PREFIX = "META-INF/resources/webjars/swagger-ui-dist/5.34.1"
 
 [
     genrule(

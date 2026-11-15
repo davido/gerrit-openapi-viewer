@@ -24,9 +24,13 @@ inside Gerrit. It adds an **OpenAPI** top-menu entry → **API Explorer**.
 
 ## Use it
 
-Build in-tree (symlink into a Gerrit checkout as `plugins/gerrit-openapi-viewer`):
+Build in-tree. Symlink the plugin into a Gerrit checkout as
+`plugins/gerrit-openapi-viewer`, then copy its build-time dependencies into place: the
+plugin owns them in `external_plugin_deps.MODULE.bazel` (the oauth-plugin convention —
+core keeps only a stub; nothing is committed there):
 
 ```sh
+cp external_plugin_deps.MODULE.bazel "$GERRIT/plugins/external_plugin_deps.MODULE.bazel"
 bazelisk build plugins/gerrit-openapi-viewer
 cp bazel-bin/plugins/gerrit-openapi-viewer/gerrit-openapi-viewer.jar "$SITE/plugins/"
 ```
@@ -59,8 +63,9 @@ bazelisk build --define=openapi=consume-openapi-from-published-bundle \
 Use the **default (in-tree)** when the viewer ships with the Gerrit it documents — the
 spec can never drift from the server. Use the **bundle** to pin a specific published
 `gerrit-openapi` release (and as the source a future standalone build would use). To move
-the bundle to a newer release, bump `gerrit_openapi_bundle`'s URL + sha256 in Gerrit's
-`plugins/external_plugin_deps.MODULE.bazel`; `update.sh` prints the stanza:
+the bundle to a newer release, bump `gerrit_openapi_bundle`'s URL + sha256 in this plugin's
+`external_plugin_deps.MODULE.bazel` (then re-copy it into the Gerrit checkout); `update.sh`
+prints the stanza:
 
 ```sh
 ./update.sh              # latest gerrit-openapi release

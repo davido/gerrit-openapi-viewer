@@ -1,0 +1,20 @@
+# Copy this file to Gerrit's plugins/external_plugin_deps.MODULE.bazel
+# for an in-tree build.
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+# Swagger UI assets (WebJar from Maven Central -- no npm).
+http_file(
+    name = "swagger_ui_dist_webjar",
+    downloaded_file_path = "swagger-ui-dist.jar",
+    sha256 = "dc17b0b4e12cb1fb5e131c741e31f21c07f37ae4de265bfbcac36e1ae7c3344b",
+    urls = ["https://repo1.maven.org/maven2/org/webjars/npm/swagger-ui-dist/5.34.1/swagger-ui-dist-5.34.1.jar"],
+)
+
+# The gerrit-openapi release bundle (spec + domain slices); refresh with update.sh.
+http_file(
+    name = "gerrit_openapi_bundle",
+    downloaded_file_path = "openapi-json-bundle.zip",
+    sha256 = "d5c753643e7956b90e75c2f3bd5e09a0b8880c55e6f24314b2c24dca425a1e14",
+    urls = ["https://github.com/davido/gerrit-openapi/releases/download/v3.16.0-SNAPSHOT/openapi-json-bundle-3.16.0-SNAPSHOT.zip"],
+)
