@@ -15,6 +15,6 @@ http_file(
 http_file(
     name = "gerrit_openapi_bundle",
     downloaded_file_path = "openapi-json-bundle.zip",
-    sha256 = "d5c753643e7956b90e75c2f3bd5e09a0b8880c55e6f24314b2c24dca425a1e14",
+    sha256 = "7542c6278f7e52ef94f196e3d79545be8557f73fe08dfd890627b56f77c1af57",
     urls = ["https://github.com/davido/gerrit-openapi/releases/download/v3.16.0-SNAPSHOT/openapi-json-bundle-3.16.0-SNAPSHOT.zip"],
 )
