@@ -29,6 +29,7 @@ config_setting(
 )
 
 _WEBJAR = "@swagger_ui_dist_webjar//file"
+
 _WEBJAR_PREFIX = "META-INF/resources/webjars/swagger-ui-dist/5.34.1"
 
 [
@@ -103,11 +104,11 @@ gerrit_plugin(
         "Implementation-Title: Gerrit OpenAPI viewer",
     ],
     resources = glob(["src/main/resources/**/*"]) + [
-        ":swagger_ui_css",
+        ":openapi_spec_merged",
         ":swagger_ui_bundle_js",
-        ":swagger_ui_standalone_preset_js",
+        ":swagger_ui_css",
         ":swagger_ui_license",
         ":swagger_ui_notice",
-        ":openapi_spec_merged",
+        ":swagger_ui_standalone_preset_js",
     ] + [":openapi_spec_" + d for d in _DOMAINS],
 )
