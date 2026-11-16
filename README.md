@@ -14,7 +14,7 @@ inside Gerrit. It adds an **OpenAPI** top-menu entry → **API Explorer**.
   `urls` dropdown, and a server-retarget so "Try it out" calls the Gerrit instance
   serving the viewer rather than the spec's reference host). No specs are vendored here:
   the merged `rest-api-openapi.json` and the `domains/*.json` slices are a build output
-  from a selectable source — by default the in-tree `//tools/openapi` build, or the
+  from a selectable source: by default the in-tree `//tools/openapi` build, or the
   pinned `gerrit-openapi` release bundle via `--define` (see **Build modes**). Swagger
   UI assets come from a Maven WebJar.
 - `update.sh` — fetch a `gerrit-openapi` release bundle and print the `http_file`
@@ -26,8 +26,8 @@ inside Gerrit. It adds an **OpenAPI** top-menu entry → **API Explorer**.
 
 Build in-tree. Symlink the plugin into a Gerrit checkout as
 `plugins/gerrit-openapi-viewer`, then copy its build-time dependencies into place: the
-plugin owns them in `external_plugin_deps.MODULE.bazel` (the oauth-plugin convention —
-core keeps only a stub; nothing is committed there):
+plugin owns them in `external_plugin_deps.MODULE.bazel` (the oauth-plugin convention:
+core keeps only a stub, and nothing is committed there):
 
 ```sh
 cp external_plugin_deps.MODULE.bazel "$GERRIT/plugins/external_plugin_deps.MODULE.bazel"
@@ -40,7 +40,7 @@ holders of the `viewOpenApi` capability — see **Access control**). Choose a do
 (or *All (merged)*) from the top-bar dropdown; "Try it out" runs against this instance.
 
 Plugin APIs appear automatically. A plugin can't enumerate other installed plugins
-server-side (`PluginLoader.getPlugins()` is empty from a plugin's own injector — that state
+server-side (`PluginLoader.getPlugins()` is empty from a plugin's own injector, and that state
 is core-only), so `init.js` does it client-side: it calls Gerrit's official
 `GET /plugins/?all` for the installed plugin names (needs the **View Plugins** capability;
 callers without it fall back to a known set, `checks` + `code-owners`), then probes each
@@ -60,11 +60,11 @@ bazelisk build --define=openapi=consume-openapi-from-published-bundle \
     plugins/gerrit-openapi-viewer
 ```
 
-Use the **default (in-tree)** when the viewer ships with the Gerrit it documents — the
+Use the **default (in-tree)** when the viewer ships with the Gerrit it documents, so the
 spec can never drift from the server. Use the **bundle** to pin a specific published
 `gerrit-openapi` release (and as the source a future standalone build would use). To move
 the bundle to a newer release, bump `gerrit_openapi_bundle`'s URL + sha256 in this plugin's
-`external_plugin_deps.MODULE.bazel` (then re-copy it into the Gerrit checkout); `update.sh`
+`external_plugin_deps.MODULE.bazel` (then re-copy it into the Gerrit checkout). `update.sh`
 prints the stanza:
 
 ```sh
@@ -77,8 +77,8 @@ prints the stanza:
 The viewer is gated: only **server administrators** or users granted the **`viewOpenApi`**
 capability can open the Explorer or read its specs. A scoped `javax.servlet` filter on
 `/plugins/gerrit-openapi-viewer/static/*` (`OpenApiViewerFilter`) checks `PermissionBackend`
-and returns `403` otherwise — it is scoped to the plugin's own namespace, not an
-`AllRequestFilter` over all of Gerrit. The menu entry still shows; the page enforces.
+and returns `403` otherwise. It is scoped to the plugin's own namespace, not an
+`AllRequestFilter` over all of Gerrit. The menu entry still shows, and the page enforces.
 
 Grant it like any plugin capability, e.g. in `All-Projects` `project.config`:
 
@@ -88,7 +88,7 @@ Grant it like any plugin capability, e.g. in `All-Projects` `project.config`:
 ```
 
 "Try it out" calls still go out as the current user and remain independently subject to
-Gerrit's normal REST ACLs — the capability only controls who can open the viewer.
+Gerrit's normal REST ACLs. The capability only controls who can open the viewer.
 
 ## License
 
